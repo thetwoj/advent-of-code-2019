@@ -33,6 +33,14 @@ def wires_cross(v1, v2, h1, h2):
     return False
 
 
+def is_horizontal(c1, c2):
+    return c1[0] == c2[0]
+
+
+def is_vertical(c1, c2):
+    return c1[1] == c2[1]
+
+
 def shortest_distance_to_intersection():
     intersections = []
     steps_to_intersection = []
@@ -61,12 +69,12 @@ def shortest_distance_to_intersection():
                 second_coord2 = second_wire[second_coord_index + 1]
 
                 # this is also gross
-                if coord[0] == coord2[0] and second_coord[0] == second_coord2[0]:
-                    second_wire_steps += abs(second_coord[0] - second_coord2[0]) + abs(
-                        second_coord[1] - second_coord2[1]
-                    )
-                    continue
-                if coord[1] == coord2[1] and second_coord[1] == second_coord2[1]:
+                if (
+                    is_horizontal(coord, coord2)
+                    and is_horizontal(second_coord, second_coord2)
+                    or is_vertical(coord, coord2)
+                    and is_vertical(second_coord, second_coord2)
+                ):
                     second_wire_steps += abs(second_coord[0] - second_coord2[0]) + abs(
                         second_coord[1] - second_coord2[1]
                     )
