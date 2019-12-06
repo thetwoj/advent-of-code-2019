@@ -1,5 +1,4 @@
 def run_intcode(pos1=12, pos2=2):
-    opcode = []
     with open("input.txt") as f:
         opcode = [int(op) for op in f.readline().split(",")]
     opcode[1] = pos1
