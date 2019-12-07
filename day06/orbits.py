@@ -26,7 +26,7 @@ def parse_input():
 
 def total_orbits():
     orbit_count = 0
-    for _, body in bodies.items():
+    for body in bodies.values():
         orbit_count += recursive_orbit_depth(body, 0)
     return orbit_count
 
