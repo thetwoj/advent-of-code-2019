@@ -32,7 +32,6 @@ def find_asteroids(sm):
         for y in range(len(sm[0])):
             if sm[x][y] == "#":
                 asteroids[(x, y)] = 0
-    # print(asteroids)
     return asteroids
 
 
@@ -40,11 +39,11 @@ def count_viewable_asteroids(sm, station, asteroids, print_map=False):
     blocked_coords = set()
     blocked_coords.add(station)
     sights = set()
-    visible_count = 0
     og_x, og_y = station
     max_x = len(sm)
     max_y = len(sm[0])
 
+    # calculate manhattan distance to asteroids so we visit nearest ones first
     distances = {}
     for a_x, a_y in asteroids:
         distances[(a_x, a_y)] = abs(og_x - a_x) + abs(og_y - a_y)
@@ -53,91 +52,21 @@ def count_viewable_asteroids(sm, station, asteroids, print_map=False):
     for x, y in distances:
         if (x, y) in blocked_coords or sm[x][y] != "#":
             continue
-        visible_count += 1
         sights.add((x, y))
-        # blocked_coords.add((x, y))
 
-        if og_x == x:
-            if y < og_y:
-                for new_y in range(0, og_y + 1):
-                    if sm[x][new_y] == "#":
-                        blocked_coords.add((x, new_y))
-                continue
-            else:
-                for new_y in range(og_y, max_y):
-                    if sm[x][new_y] == "#":
-                        blocked_coords.add((x, new_y))
-                continue
+        gcd = math.gcd(abs(og_x - x), abs(og_y - y))
+        diff_x = (og_x - x) // gcd
+        diff_y = (og_y - y) // gcd
 
-        if og_y == y:
-            if x < og_x:
-                for new_x in range(0, og_x + 1):
-                    if sm[new_x][y] == "#":
-                        blocked_coords.add((new_x, y))
-                continue
-            else:
-                for new_x in range(og_x, max_x):
-                    if sm[new_x][y] == "#":
-                        blocked_coords.add((new_x, y))
-                continue
+        new_x = x - diff_x
+        new_y = y - diff_y
+        while max_x > new_x >= 0 and max_y > new_y >= 0:
+            if sm[new_x][new_y] == "#":
+                blocked_coords.add((new_x, new_y))
+            new_x -= diff_x
+            new_y -= diff_y
 
-        gcd = math.gcd(abs(x - og_x), abs(y - og_y))
-        if x > og_x and y > og_y:
-            new_x = x + (x - og_x) // gcd
-            new_y = y + (y - og_y) // gcd
-            while max_x > new_x > og_x and max_y > new_y > og_y:
-                blocked_coords.add((new_x, new_y))
-                new_x = new_x + (x - og_x) // gcd
-                new_y = new_y + (y - og_y) // gcd
-            new_x = x - (x - og_x) // gcd
-            new_y = y - (y - og_y) // gcd
-            while max_x > new_x > og_x and max_y > new_y > og_y:
-                blocked_coords.add((new_x, new_y))
-                new_x = new_x - (x - og_x) // gcd
-                new_y = new_y - (y - og_y) // gcd
-
-        if x > og_x and y < og_y:
-            new_x = x - (og_x - x) // gcd
-            new_y = y - (og_y - y) // gcd
-            while max_x > new_x > og_x and og_y > new_y >= 0:
-                blocked_coords.add((new_x, new_y))
-                new_x = new_x - (og_x - x) // gcd
-                new_y = new_y - (og_y - y) // gcd
-            new_x = x + (og_x - x) // gcd
-            new_y = y + (og_y - y) // gcd
-            while max_x > new_x > og_x and og_y > new_y >= 0:
-                blocked_coords.add((new_x, new_y))
-                new_x = new_x + (og_x - x) // gcd
-                new_y = new_y + (og_y - y) // gcd
-
-        if x < og_x and y > og_y:
-            new_x = x - (og_x - x) // gcd
-            new_y = y - (og_y - y) // gcd
-            while og_x > new_x >= 0 and max_y > new_y > og_y:
-                blocked_coords.add((new_x, new_y))
-                new_x = new_x - (og_x - x) // gcd
-                new_y = new_y - (og_y - y) // gcd
-            new_x = x + (og_x - x) // gcd
-            new_y = y + (og_y - y) // gcd
-            while og_x > new_x >= 0 and max_y > new_y > og_y:
-                blocked_coords.add((new_x, new_y))
-                new_x = new_x + (og_x - x) // gcd
-                new_y = new_y + (og_y - y) // gcd
-
-        if x < og_x and y < og_y:
-            new_x = x + (x - og_x) // gcd
-            new_y = y + (y - og_y) // gcd
-            while og_x > new_x >= 0 and og_y > new_y >= 0:
-                blocked_coords.add((new_x, new_y))
-                new_x = new_x + (x - og_x) // gcd
-                new_y = new_y + (y - og_y) // gcd
-            new_x = x - (x - og_x) // gcd
-            new_y = y - (y - og_y) // gcd
-            while og_x > new_x >= 0 and og_y > new_y >= 0:
-                blocked_coords.add((new_x, new_y))
-                new_x = new_x - (x - og_x) // gcd
-                new_y = new_y - (y - og_y) // gcd
-
+    # Print map if requested
     if print_map:
         new_map = deepcopy(sm)
         for x, y in blocked_coords:
@@ -146,20 +75,61 @@ def count_viewable_asteroids(sm, station, asteroids, print_map=False):
             new_map[x][y] = "O"
         new_map[og_x][og_y] = "#"
         print_star_map(new_map)
-    return visible_count
+
+    return sights
 
 
-if __name__ == "__main__":
+def run():
     star_map = read_map()
-    # print_star_map(star_map)
     asteroids = find_asteroids(star_map)
     results = {}
     for asteroid in asteroids:
-        results[asteroid] = count_viewable_asteroids(star_map, asteroid, asteroids)
-    # print()
+        results[asteroid] = len(count_viewable_asteroids(star_map, asteroid, asteroids))
     max_asteroid = max(results, key=results.get)
     print("part one:")
     count_viewable_asteroids(star_map, max_asteroid, asteroids, print_map=True)
     print(f"station coords: {max_asteroid}")
     viewable_asteroid_count = results[max_asteroid]
     print(f"visible asteroids: {viewable_asteroid_count}")
+
+    print()
+    print("part two:")
+    destroyed_count = 0
+    while destroyed_count < 200:
+        visible_asteroids = count_viewable_asteroids(star_map, max_asteroid, asteroids)
+        asteroid_angles = {}
+        station_x, station_y = max_asteroid
+        for x, y in visible_asteroids:
+            if station_x - x == 0:
+                degrees = 0 if y < station_y else 180
+            elif station_y - y == 0:
+                degrees = 90 if x > station_x else 270
+            else:
+                degrees = math.degrees(
+                    math.atan(abs(station_y - y) / abs(station_x - x))
+                )
+
+            if x > station_x and y > station_y:
+                degrees += 90
+            elif x < station_x and y > station_y:
+                degrees = 90 - degrees
+                degrees += 180
+            elif x < station_x and y < station_y:
+                degrees += 270
+            elif 0 < degrees < 90:
+                degrees = 90 - degrees
+
+            asteroid_angles[(x, y)] = degrees
+        # preserving the value in sorting is helpful for debugging but not necessary for answer
+        sorted_angles = {
+            k: v for k, v in sorted(asteroid_angles.items(), key=lambda item: item[1])
+        }
+        for asteroid in sorted_angles:
+            del asteroids[asteroid]
+            destroyed_count += 1
+            if destroyed_count == 200:
+                print(f"coords of 200th asteroid destroyed: {asteroid}")
+
+
+if __name__ == "__main__":
+    run()
