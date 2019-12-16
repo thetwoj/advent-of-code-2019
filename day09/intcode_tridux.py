@@ -98,19 +98,18 @@ def process_op(opcode, position):
         print(f"Invalid op found at position {position}: {instruction}")
 
 
-if __name__ == "__main__":
-    print(f"part one:")
-    opcode = run_intcode()
-    position = 0
-    finished = False
-    while not finished:
-        position, finished = process_op(opcode, position)
-    print()
-    print(f"part two:")
-    SYSTEM_ID = 2
-    RELATIVE_BASE = 0
-    opcode = run_intcode()
-    position = 0
-    finished = False
-    while not finished:
-        position, finished = process_op(opcode, position)
+print(f"part one:")
+opcode = run_intcode()
+position = 0
+finished = False
+while not finished:
+    position, finished = process_op(opcode, position)
+print()
+print(f"part two:")
+SYSTEM_ID = 2
+RELATIVE_BASE = 0
+opcode = run_intcode()
+position = 0
+finished = False
+while not finished:
+    position, finished = process_op(opcode, position)

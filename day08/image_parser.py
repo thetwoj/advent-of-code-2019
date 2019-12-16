@@ -46,9 +46,9 @@ def collapse_layers(layers):
                 if canvas[x][y] != 2:
                     if layer_index == 0:
                         current = canvas[x][y]
-                        canvas[x][y] = "." if current == 0 else "#"
+                        canvas[x][y] = " " if current == 0 else "#"
                     continue
-                canvas[x][y] = "." if pixel == 0 else "#"
+                canvas[x][y] = " " if pixel == 0 else "#"
 
     return canvas
 
@@ -64,14 +64,13 @@ def print_layer(layer):
                 print(layer[x][y], end="")
 
 
-if __name__ == "__main__":
-    image = parse_image(25, 6)
-    layer_number = fewest_zeroes(image)
-    fewest_zeroes_layer = image[layer_number]
-    ones = count_digits_in_layer(fewest_zeroes_layer, 1)
-    twos = count_digits_in_layer(fewest_zeroes_layer, 2)
-    print(f"part one: {ones * twos}")
-    print()
-    final_image = collapse_layers(image)
-    print(f"part two:")
-    print_layer(final_image)
+image = parse_image(25, 6)
+layer_number = fewest_zeroes(image)
+fewest_zeroes_layer = image[layer_number]
+ones = count_digits_in_layer(fewest_zeroes_layer, 1)
+twos = count_digits_in_layer(fewest_zeroes_layer, 2)
+print(f"part one: {ones * twos}")
+print()
+final_image = collapse_layers(image)
+print(f"part two:")
+print_layer(final_image)

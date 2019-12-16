@@ -63,11 +63,10 @@ def process_op(opcode, position):
         print(f"Invalid op found at position {position}: {instruction}")
 
 
-if __name__ == "__main__":
-    SYSTEM_ID = 1
-    print(f"part one:")
-    run_intcode()
-    print()
-    SYSTEM_ID = 5
-    print(f"part two:")
-    results = run_intcode()
+SYSTEM_ID = 1
+print(f"part one:")
+run_intcode()
+print()
+SYSTEM_ID = 5
+print(f"part two:")
+run_intcode()

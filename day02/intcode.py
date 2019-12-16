@@ -22,13 +22,12 @@ def process_op(opcode, position):
         print(f"Invalid op found at position {position}: {instruction}")
 
 
-if __name__ == "__main__":
-    results = run_intcode()
-    print(f"part one:\n{results[0]}")
-    print()
-    for noun in range(99):
-        for verb in range(99):
-            results = run_intcode(noun, verb)
-            if results[0] == 19690720:
-                print(f"part two: noun - {noun}, verb - {verb}")
-                print(f"{100 * noun + verb}")
+results = run_intcode()
+print(f"part one:\n{results[0]}")
+print()
+for noun in range(99):
+    for verb in range(99):
+        results = run_intcode(noun, verb)
+        if results[0] == 19690720:
+            print(f"part two: noun - {noun}, verb - {verb}")
+            print(f"{100 * noun + verb}")

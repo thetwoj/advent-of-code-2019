@@ -60,10 +60,9 @@ def calculate_passwords(low, up, part=1):
     return candidates
 
 
-if __name__ == "__main__":
-    lower, upper = get_input()
-    password_candidates = calculate_passwords(lower, upper, 1)
-    print(f"part one:\n{len(password_candidates)}")
-    print()
-    password_candidates = calculate_passwords(lower, upper, 2)
-    print(f"part two:\n{len(password_candidates)}")
+lower, upper = get_input()
+password_candidates = calculate_passwords(lower, upper, 1)
+print(f"part one:\n{len(password_candidates)}")
+print()
+password_candidates = calculate_passwords(lower, upper, 2)
+print(f"part two:\n{len(password_candidates)}")

@@ -22,9 +22,8 @@ def recursive_mass(fuel):
     return fuel + recursive_mass(fuel_req_by_fuel)
 
 
-if __name__ == "__main__":
-    fuel_req = part_one()
-    print(f"part one:\n{sum(fuel_req)}")
-    print()
-    total_fuel = part_two(fuel_req)
-    print(f"part two:\n{total_fuel}")
+fuel_req = part_one()
+print(f"part one:\n{sum(fuel_req)}")
+print()
+total_fuel = part_two(fuel_req)
+print(f"part two:\n{total_fuel}")

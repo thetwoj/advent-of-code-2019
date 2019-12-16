@@ -100,8 +100,7 @@ def shortest_distance_to_intersection():
     return min(distances), min(steps_to_intersection)
 
 
-if __name__ == "__main__":
-    min_distance, min_steps = read_map()
-    print(f"part one:\n{min_distance}")
-    print()
-    print(f"part two:\n{min_steps}")
+min_distance, min_steps = read_map()
+print(f"part one:\n{min_distance}")
+print()
+print(f"part two:\n{min_steps}")

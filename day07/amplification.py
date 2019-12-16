@@ -111,9 +111,6 @@ def controller(amp_count, phase_min, feedback=False):
     return max(output)
 
 
-if __name__ == "__main__":
-    print(f"part one: {controller(5, 0, False)} is highest thruster signal")
-    print()
-    print(
-        f"part two: {controller(5, 5, True)} is highest thruster signal with feedback"
-    )
+print(f"part one: {controller(5, 0, False)} is highest thruster signal")
+print()
+print(f"part two: {controller(5, 5, True)} is highest thruster signal with feedback")

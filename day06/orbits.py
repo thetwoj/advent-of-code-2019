@@ -52,8 +52,7 @@ def path_intersections():
     return santa.index(intersection) + you.index(intersection)
 
 
-if __name__ == "__main__":
-    parse_input()
-    print(f"part one: {total_orbits()} total direct + indirect orbits")
-    print()
-    print(f"part two: {path_intersections()} moves for YOU to share same orbit as SAN")
+parse_input()
+print(f"part one: {total_orbits()} total direct + indirect orbits")
+print()
+print(f"part two: {path_intersections()} moves for YOU to share same orbit as SAN")
